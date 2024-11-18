@@ -4,6 +4,7 @@ from langchain_experimental.agents import create_csv_agent
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain_experimental.tools import PythonREPLTool
+import os
 
 load_dotenv()
 
@@ -30,11 +31,13 @@ def main():
         tools=tools,    
     )
     agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    output_dir = "/app/output"
+    os.makedirs(output_dir, exist_ok=True)
 
     agent_executor.invoke(
         input={
             "input": """
-                generate and save in current working directory 2 QR codes thath point to www.google.com you have qrcodepackage installed already
+                generate and save in the /app/output directory 2 QR codes thath point to www.google.com you have qrcodepackage installed already
             """
             }
     )
